@@ -4,6 +4,10 @@ const CARD_POOL = [
     { id: 2, name: "Stadshuis",   baseRarity: "common", image: "../Assets/stadshuis.jpg" },
     { id: 3, name: "Man en hert", baseRarity: "common", image: "../Assets/hertenjager.jpg" },
     { id: 4, name: "tun tun tun sahur", baseRarity: "rare", image: "../Assets/tuntun.jpg" },
+    { id: 5, name: "67", baseRarity: "common", image: "../Assets/67.jpg" },
+    { id: 6, name: "Eikenboom", baseRarity: "common", image: "../Assets/eikenboom.jpg" },
+    { id: 7, name: "Koolmees", baseRarity: "common", image: "../Assets/koolmees.jpg" },
+    { id: 8, name: "Paddenstoel", baseRarity: "common", image: "../Assets/paddenstoel.jpg" },
 ];
 
 // make sure any backslashes are converted and
@@ -124,25 +128,31 @@ function checkUpgrade(cardId) {
     }
 }
 
+function getEntry(cardId) {
+    // return a canonical object even if the user doesn’t own the card yet
+    return inventory[cardId] || { count: 0, rarity: CARD_POOL.find(c=>c.id===cardId).baseRarity, missing: true };
+}
+
 // override renderInventory to build card‑style elements
 function renderInventory() {
     const list = document.getElementById("inventory-list");
     list.innerHTML = "";
     for (const card of CARD_POOL) {
-        const entry = inventory[card.id];
+        const entry = getEntry(card.id);
         if (!entry) continue;
         const cardDiv = document.createElement("div");
-        cardDiv.className = `card rarity-${entry.rarity}`;
+        cardDiv.className = `card rarity-${entry.rarity}` + (entry.count === 0 ? " card-missing" : "");
 
         const img = document.createElement("img");
         img.className = "card-img-top";
         img.src = card.image || "";
-        img.onerror = () => { 
+        img.onerror = () => {
             img.style.background = "#333";
             img.style.display = "block";
         };
-        // click to open modal
-        img.addEventListener("click", () => openModal(card.image || ""));
+        if (!entry.missing) {           // only clickable if owned
+            img.addEventListener("click", () => openModal(card.image || ""));
+        }
         cardDiv.appendChild(img);
 
         const body = document.createElement("div");

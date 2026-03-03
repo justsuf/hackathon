@@ -134,6 +134,15 @@ footer {
     font-weight: 700;
 }
 
+#inventory-list .card.card-missing {
+    opacity: 0.4;
+    cursor: default;
+}
+
+#inventory-list .card.card-missing .badge {
+    background: #999 !important;
+}
+
 /* rarity border colour */
 #inventory-list .rarity-common    { border-color: #98D8C8; } /* turquoise */
 #inventory-list .rarity-rare      { border-color: #FF6B6B; } /* coral red */
