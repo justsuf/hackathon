@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="nl">
+    <head>
+        <title>Kaart - Chest Chasers</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <!-- map styles -->
+        <link rel="stylesheet" href="../CSS/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet/dist/leaflet.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+        />
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar navbar-light" id="navbar-custom">
+                <div class="container-fluid justify-content-center">
+                    <a class="navbar-brand" href="../index.html">Chest Chasers</a>
+                </div>
+            </nav>
+        </header>
+        <main class="container-fluid p-0">
+            <div class="card border-0 shadow-sm m-2" id="xp-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="xp-label">🎮 XP:</span>
+                        <span id="xp-display" class="xp-value">0 / 100</span>
+                        <span id="level-display" class="ms-3 badge bg-primary text-white">Level 1</span>
+                    </div>
+                    <div class="progress" style="height: 28px;">
+                        <div id="xp-progress" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-0 shadow-sm m-2" id="controls-card">
+                <div class="card-body p-2">
+                    <div class="mb-2">
+                        <label for="routeSelect" class="form-label fw-bold" style="font-size: 0.95rem;">🗺️ Selecteer je route:</label>
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <select id="routeSelect" class="form-select form-select-sm">
+                                <option value="1">Route 1: Historische Stadswandeling</option>
+                                <option value="2">Route 2: Natuur &amp; Parken</option>
+                                <option value="3">Route 3: Culturele Hoogtepunten</option>
+                            </select>
+                            <button id="reset" class="btn btn-outline-danger btn-sm">🔄 Route wissen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="map" class="rounded-3"></div>
+        </main>
+        <footer class="bg-light border-top border-2 border-warning mt-4">
+            <div class="container-fluid text-center py-4">
+                <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mb-3">
+                    <a href="missies.html" class="btn btn-lg btn-primary shadow-sm">📋 Naar Missies</a>
+                    <a href="inventory.html" class="btn btn-lg btn-info shadow-sm">🎒 Naar Inventaris</a>
+                </div>
+                <small class="text-muted">&copy; 2026 Chest Chasers Hackathon</small>
+            </div>
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+        <!-- Leaflet & routing scripts -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        <script src="../JavaScript/map.js"></script>
+    </body>
+</html>

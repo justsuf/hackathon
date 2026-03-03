@@ -1,0 +1,399 @@
+/* Root and Global Styles */
+:root {
+    --primary-pink: #FF1493;
+    --secondary-cyan: #00CED1;
+    --accent-green: #32CD32;
+    --gold: #FFD700;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #FFB6C1, #87CEEB, #98FB98);
+    background-attachment: fixed;
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    color: #333;
+    font-weight: 600;
+}
+
+#navbar-custom {
+    background: linear-gradient(90deg, #FF69B4, #FFD700, #87CEEB) !important;
+    border-bottom: 5px solid #FF1493;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #FFFFFF !important;
+    animation: bounce 2s infinite;
+    text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.5), 
+                 2px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Map Container */
+#map {
+    height: 70vh;
+    border-radius: 20px;
+    border: 4px solid #FFD700;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    margin: 2rem 0;
+}
+
+/* Cards */
+#xp-card, #controls-card {
+    border-radius: 20px;
+    border: 4px solid;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s;
+    margin-bottom: 2rem;
+}
+
+#xp-card {
+    background: linear-gradient(135deg, #FFFACD, #FFE4B5);
+    border-color: #FFD700;
+    border-style: dashed;
+}
+
+#xp-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+}
+
+#controls-card {
+    background: linear-gradient(135deg, #E0FFFF, #AFEEEE);
+    border-color: #00CED1;
+    border-style: solid;
+}
+
+#controls-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 206, 209, 0.3);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #FF1493;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* XP Bar Styling */
+#xp-label {
+    font-weight: 900;
+    color: #FF1493;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#xp-display {
+    font-size: 1rem;
+    color: #FF1493;
+    font-weight: 700;
+}
+
+#xp-progress {
+    height: 32px;
+    background: linear-gradient(90deg, #FF1493, #FFD700, #FF69B4);
+    border: 3px solid #FF1493;
+    border-radius: 16px;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+}
+
+#xp-bar-background {
+    background-color: #FFFFFF;
+    border: 3px solid #FFD700;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Welcome Card */
+#welcome-card {
+    background: linear-gradient(135deg, #FFE4E1, #E0FFFF);
+    border: 4px solid #FF1493;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s;
+}
+
+#welcome-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 32px rgba(255, 20, 147, 0.2);
+}
+
+#welcome-card .card-title {
+    color: #FF1493;
+    font-weight: 900;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#welcome-card .card-text {
+    color: #333;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+/* Form styling */
+.form-label {
+    margin-bottom: 1rem;
+    font-weight: 800;
+    color: #FF1493;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.form-select, .form-select-lg {
+    border-radius: 15px;
+    border: 3px solid #FFD700;
+    font-size: 1.05rem;
+    font-weight: 600;
+    background-color: #FFFACD;
+    transition: all 0.3s;
+}
+
+.form-select:focus, .form-select-lg:focus {
+    border-color: #FF1493;
+    box-shadow: 0 0 0 0.4rem rgba(255, 20, 147, 0.25);
+    background-color: #FFFFFF;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    min-height: 50px;
+    min-width: 50px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #FF1493, #FF69B4);
+    border: 3px solid #C71585;
+    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.4);
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #C71585, #FF1493);
+    box-shadow: 0 8px 24px rgba(255, 20, 147, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    color: #FFFFFF;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #00CED1, #00BFFF);
+    border: 3px solid #008B8B;
+    box-shadow: 0 6px 16px rgba(0, 206, 209, 0.4);
+    color: #FFFFFF;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #008B8B, #00CED1);
+    box-shadow: 0 8px 24px rgba(0, 206, 209, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    color: #FFFFFF;
+}
+
+.btn-outline-danger {
+    color: #FF1493;
+    border: 3px solid #FF1493;
+    font-weight: 800;
+    background-color: #FFFFFF;
+}
+
+.btn-outline-danger:hover {
+    background-color: #FF1493;
+    border-color: #FF1493;
+    color: #FFFFFF;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #32CD32, #00AA00);
+    border: 3px solid #228B22;
+    box-shadow: 0 6px 16px rgba(50, 205, 50, 0.4);
+    color: #FFFFFF;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #228B22, #32CD32);
+    box-shadow: 0 8px 24px rgba(50, 205, 50, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    color: #FFFFFF;
+}
+
+.form-select {
+    min-height: 50px;
+}
+
+/* Leaflet Popup */
+.leaflet-popup-content {
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 15px;
+    background: linear-gradient(135deg, #FFE4E1, #E0FFFF);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-tip {
+    background: #E0FFFF;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(90deg, #FFB6C1, #87CEEB);
+    border-top: 4px solid #FF1493;
+    padding: 2rem 1rem;
+    text-align: center;
+    font-weight: 700;
+    color: #333;
+}
+
+footer a {
+    color: #FF1493;
+    text-decoration: none;
+    font-weight: 900;
+    transition: all 0.2s;
+}
+
+footer a:hover {
+    color: #C71585;
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #map {
+        height: 60vh;
+        margin: 1rem 0;
+    }
+
+    .navbar-brand {
+        font-size: 2rem;
+    }
+
+    #xp-card, #controls-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        min-height: 48px;
+        font-size: 1rem;
+    }
+
+    .form-select {
+        font-size: 1rem;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    html, body {
+        font-size: 14px;
+    }
+
+    #map {
+        height: 50vh;
+        border-radius: 15px;
+        border-width: 3px;
+    }
+
+    .navbar-brand {
+        font-size: 1.75rem;
+        animation: bounce 2s infinite;
+    }
+
+    #xp-card, #controls-card {
+        border-radius: 15px;
+        border-width: 3px;
+        margin-bottom: 1rem;
+        padding: 1rem !important;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    #xp-label {
+        font-size: 1.1rem;
+    }
+
+    #xp-progress {
+        height: 24px;
+        border-width: 2px;
+        border-radius: 12px;
+    }
+
+    .btn {
+        min-height: 46px;
+        min-width: 46px;
+        font-size: 0.95rem;
+        border-width: 2px !important;
+    }
+
+    .form-select {
+        font-size: 0.95rem;
+        min-height: 46px;
+        border-width: 2px;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    footer {
+        padding: 1.5rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    footer a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Animations and Transitions */
+.leaflet-marker-icon {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.2s;
+}
+
+.leaflet-marker-icon:hover {
+    filter: drop-shadow(0 4px 8px rgba(255, 20, 147, 0.5));
+}
+
+/* Completed mission marker styling */
+.chest-completed {
+    opacity: 0.6;
+    filter: grayscale(50%);
+}
