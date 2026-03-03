@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chest Chasers</title>
+  <style>
+    :root{
+      --card-bg: #A8D6EA;      
+      --text: #0a0a0a;
+      --btn: #0C57F2;      
+      --btn-dark: #0846c7;
+      --card-border: rgba(0,0,0,.25);
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #f4f7fb;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text);
+    }
+
+    .card{
+      width: min(420px, 92vw);
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 18px;
+      padding: 28px 26px 26px;
+      box-shadow: 0 8px 22px rgba(0,0,0,.10);
+      text-align: center;
+    }
+
+    h1{
+      margin: 6px 0 14px;
+      font-size: 32px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .desc{
+      margin: 0 auto 26px;
+      max-width: 34ch;
+      font-size: 16px;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    .start-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: min(280px, 90%);
+      height: 64px;
+      border-radius: 10px;
+      border: 2px solid rgba(0,0,0,.25);
+      background: var(--btn);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .06s ease, background .15s ease, box-shadow .15s ease;
+      box-shadow: 0 10px 18px rgba(12,87,242,.25);
+    }
+    .start-btn:hover{
+      background: var(--btn-dark);
+    }
+    .start-btn:active{
+      transform: translateY(1px);
+      box-shadow: 0 7px 14px rgba(12,87,242,.22);
+    }
+
+    
+    .hint{
+      margin-top: 14px;
+      font-size: 12px;
+      opacity: .75;
+    }
+  </style>
+</head>
+
+
+    <body>
+  <main class="card" role="main" aria-label="Startscherm Chest Chasers">
+    <h1>Chest Chasers</h1>
+
+    <p class="desc">
+      Ga op avontuur en vind zoveel mogelijk schatkisten in jouw buurt! Open ze, voer
+      de opdrachten uit en verdien coole kaarten voor je verzameling. Hoe meer
+      opdrachten je voltooit, hoe hoger je level wordt en hoe zeldzamer je kaarten.
+      Verzamel ze allemaal en laat zien dat jij de ultieme schattenjager bent! 🗺️✨
+    </p>
+
+    <button class="start-btn" id="startBtn" type="button">Start</button>
+
+    <div class="hint">Klik op Start om door te gaan</div>
+  </main>
+
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      window.location.href = "map.html";
+    });
+  </script>
+
