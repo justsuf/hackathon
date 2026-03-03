@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chest Chasers</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e5e5e5;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    width: 320px;
+    background: #9ec3d6;
+    padding: 20px;
+    border-radius: 20px;
+    border: 3px solid #4a8aa3;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* XP Balk */
+#levelText {
+    text-align: right;
+    font-size: 14px;
+    margin-top: 2px;
+    font-weight: bold;
+}
+#xpGainText {
+    text-align: right;
+    font-size: 12px;
+    color: #d9534f;
+    height: 16px;
+    margin-top: 2px;
+}
+#levelUpMessage {
+    text-align: center;
+    font-size: 14px;
+    color: #27ae60;
+    font-weight: bold;
+    height: 18px;
+    margin-top: 5px;
+}
+.progress-container {
+    background: #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    border: 2px solid #999;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.xp-text {
+    text-align: right;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Missies */
+.mission {
+    background: #e9e9e9;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #aaa;
+    font-size: 15px;
+}
+
+.mission input {
+    width: 20px;
+    height: 20px;
+}
+
+.back-button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #1e5ed6;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background: #174db0;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+    <h1>Chest Chasers</h1>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="xp-text" id="xpText">0/100 XP</div>
+    <div class="xp-text" id="xpGainText"></div>
+    <div class="xp-text" id="levelText">Level: 1</div>
+    <div id="levelUpMessage"></div>
+
+    <div id="missionsContainer">
+        <div class="mission">
+            Man en het hert
+            <input type="checkbox" class="missionCheck">
+        </div>
+
+        <div class="mission">
+            Zoek een standbeeld
+            <input type="checkbox" class="missionCheck">
+        </div>
+
+        <div class="mission">
+            Raadsel
+            <input type="checkbox" class="missionCheck">
+        </div>
+
+        <div class="mission">
+            Kies het juiste feit
+            <input type="checkbox" class="missionCheck">
+        </div>
+
+        <div class="mission">
+            De kus van Apeldoorn
+            <input type="checkbox" class="missionCheck">
+        </div>
+    </div>
+
+    <button class="back-button">Terug</button>
+</div>
+
+<script>
+const missionsContainer = document.getElementById("missionsContainer");
+const progressBar = document.getElementById("progressBar");
+const xpText = document.getElementById("xpText");
+const xpGainText = document.getElementById("xpGainText");
+const levelText = document.getElementById("levelText");
+const levelUpMessage = document.getElementById("levelUpMessage");
+
+const baseXP = 100;
+let level = 1;
+let currentXP = 0; // track accumulated XP for this level
+let leveledThisRound = false;
+
+function updateXP() {
+    const maxXP = baseXP * level;
+    let percentage = (currentXP / maxXP) * 100;
+
+    progressBar.style.width = percentage + "%";
+    xpText.textContent = Math.floor(currentXP) + "/" + maxXP + " XP";
+
+    // level up logic
+    if (currentXP >= maxXP && !leveledThisRound) {
+        level++;
+        leveledThisRound = true;
+        levelText.textContent = "Level: " + level;
+        levelUpMessage.textContent = "Gefeliciteerd! Je bent nu level " + level + "!";
+        setTimeout(() => { levelUpMessage.textContent = ""; }, 2500);
+        // reset XP for next level
+        currentXP = 0;
+        progressBar.style.width = "0%";
+        xpText.textContent = "0/" + (baseXP * level) + " XP";
+    }
+
+    if (currentXP < baseXP * level) {
+        leveledThisRound = false;
+    }
+}
+
+// delegation: handle existing and future checkboxes
+missionsContainer.addEventListener("change", function(e) {
+    if (e.target.matches(".missionCheck")) {
+        if (e.target.checked) {
+            // calculate xp for this mission
+            const existing = document.querySelectorAll(".missionCheck");
+            const maxXP = baseXP * level;
+            const xpPerMission = maxXP / existing.length;
+            currentXP += xpPerMission; // add to accumulated XP
+            xpGainText.textContent = "+" + Math.floor(xpPerMission) + " XP";
+            setTimeout(() => { xpGainText.textContent = ""; }, 1500);
+
+            const missionDiv = e.target.closest(".mission");
+            addNewMission();
+            if (missionDiv) {
+                missionDiv.remove();
+            }
+        }
+        updateXP();
+    }
+});
+
+function addNewMission() {
+    const randomNum = Math.floor(Math.random() * 1000) + 1;
+    const div = document.createElement("div");
+    div.className = "mission";
+    div.innerHTML = `Nieuwe missie ${randomNum} <input type="checkbox" class="missionCheck">`;
+    missionsContainer.appendChild(div);
+}
+</script>
+
+</body>
+</html>
