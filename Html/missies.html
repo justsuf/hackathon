@@ -1,224 +1,273 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chest Chasers</title>
+    <title>Missies - Chest Chasers</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #e5e5e5;
-    font-family: Arial, sans-serif;
-}
-
-.app {
-    width: 320px;
-    background: #9ec3d6;
-    padding: 20px;
-    border-radius: 20px;
-    border: 3px solid #4a8aa3;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* XP Balk */
-#levelText {
-    text-align: right;
-    font-size: 14px;
-    margin-top: 2px;
-    font-weight: bold;
-}
-#xpGainText {
-    text-align: right;
-    font-size: 12px;
-    color: #d9534f;
-    height: 16px;
-    margin-top: 2px;
-}
-#levelUpMessage {
-    text-align: center;
-    font-size: 14px;
-    color: #27ae60;
-    font-weight: bold;
-    height: 18px;
-    margin-top: 5px;
-}
-.progress-container {
-    background: #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 20px;
-    border: 2px solid #999;
-}
-
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #4CAF50;
-    transition: width 0.3s ease;
-}
-
-.xp-text {
-    text-align: right;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* Missies */
-.mission {
-    background: #e9e9e9;
-    border-radius: 12px;
-    padding: 12px;
-    margin-top: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px solid #aaa;
-    font-size: 15px;
-}
-
-.mission input {
-    width: 20px;
-    height: 20px;
-}
-
-.back-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    background: #1e5ed6;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-}
-
-.back-button:hover {
-    background: #174db0;
-}
-</style>
-</head>
-<body>
-
-<div class="app">
-    <h1>Chest Chasers</h1>
-
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-    <div class="xp-text" id="xpText">0/100 XP</div>
-    <div class="xp-text" id="xpGainText"></div>
-    <div class="xp-text" id="levelText">Level: 1</div>
-    <div id="levelUpMessage"></div>
-
-    <div id="missionsContainer">
-        <div class="mission">
-            Man en het hert
-            <input type="checkbox" class="missionCheck">
-        </div>
-
-        <div class="mission">
-            Zoek een standbeeld
-            <input type="checkbox" class="missionCheck">
-        </div>
-
-        <div class="mission">
-            Raadsel
-            <input type="checkbox" class="missionCheck">
-        </div>
-
-        <div class="mission">
-            Kies het juiste feit
-            <input type="checkbox" class="missionCheck">
-        </div>
-
-        <div class="mission">
-            De kus van Apeldoorn
-            <input type="checkbox" class="missionCheck">
-        </div>
-    </div>
-
-    <button class="back-button">Terug</button>
-</div>
-
-<script>
-const missionsContainer = document.getElementById("missionsContainer");
-const progressBar = document.getElementById("progressBar");
-const xpText = document.getElementById("xpText");
-const xpGainText = document.getElementById("xpGainText");
-const levelText = document.getElementById("levelText");
-const levelUpMessage = document.getElementById("levelUpMessage");
-
-const baseXP = 100;
-let level = 1;
-let currentXP = 0; // track accumulated XP for this level
-let leveledThisRound = false;
-
-function updateXP() {
-    const maxXP = baseXP * level;
-    let percentage = (currentXP / maxXP) * 100;
-
-    progressBar.style.width = percentage + "%";
-    xpText.textContent = Math.floor(currentXP) + "/" + maxXP + " XP";
-
-    // level up logic
-    if (currentXP >= maxXP && !leveledThisRound) {
-        level++;
-        leveledThisRound = true;
-        levelText.textContent = "Level: " + level;
-        levelUpMessage.textContent = "Gefeliciteerd! Je bent nu level " + level + "!";
-        setTimeout(() => { levelUpMessage.textContent = ""; }, 2500);
-        // reset XP for next level
-        currentXP = 0;
-        progressBar.style.width = "0%";
-        xpText.textContent = "0/" + (baseXP * level) + " XP";
-    }
-
-    if (currentXP < baseXP * level) {
-        leveledThisRound = false;
-    }
-}
-
-// delegation: handle existing and future checkboxes
-missionsContainer.addEventListener("change", function(e) {
-    if (e.target.matches(".missionCheck")) {
-        if (e.target.checked) {
-            // calculate xp for this mission
-            const existing = document.querySelectorAll(".missionCheck");
-            const maxXP = baseXP * level;
-            const xpPerMission = maxXP / existing.length;
-            currentXP += xpPerMission; // add to accumulated XP
-            xpGainText.textContent = "+" + Math.floor(xpPerMission) + " XP";
-            setTimeout(() => { xpGainText.textContent = ""; }, 1500);
-
-            const missionDiv = e.target.closest(".mission");
-            addNewMission();
-            if (missionDiv) {
-                missionDiv.remove();
-            }
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+    />
+    <!-- main styles -->
+    <link rel="stylesheet" href="../CSS/style.css" />
+    <style>
+        #missions-card {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, #FFFACD, #FFE4B5);
+            border: 4px solid #FFD700;
+            border-radius: 20px;
+            padding: 2rem;
         }
-        updateXP();
-    }
-});
 
-function addNewMission() {
-    const randomNum = Math.floor(Math.random() * 1000) + 1;
-    const div = document.createElement("div");
-    div.className = "mission";
-    div.innerHTML = `Nieuwe missie ${randomNum} <input type="checkbox" class="missionCheck">`;
-    missionsContainer.appendChild(div);
-}
-</script>
+        .mission {
+            /* use same pink/gold theme as XP bar */
+            background: linear-gradient(135deg, #FF1493, #FFD700);
+            border: 3px solid #FF1493;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
 
+        .mission:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4);
+        }
+
+        .mission input[type="checkbox"] {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            accent-color: #FF1493;
+        }
+
+        #levelText {
+            font-weight: 900;
+            color: #FF1493;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        #xpText {
+            font-weight: 700;
+            color: #FF1493;
+            font-size: 1.1rem;
+        }
+
+        #xpGainText {
+            color: #32CD32;
+            font-weight: 800;
+            font-size: 1.1rem;
+            height: 1.5rem;
+        }
+
+        #levelUpMessage {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #FF1493;
+            font-weight: 900;
+            height: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .progress-container {
+            background: #FFFFFF;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 32px;
+            border: 3px solid #FFD700;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #FF1493, #FFD700, #FF69B4);
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light" id="navbar-custom">
+            <div class="container-fluid justify-content-center">
+                <a class="navbar-brand" href="../index.html">Chest Chasers</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="card border-0 shadow-lg" id="missions-card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">📋 Mijn Missies</h2>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <div id="levelText">Level: 1</div>
+                        <div id="xpText">0/100 XP</div>
+                    </div>
+                </div>
+
+                <div class="progress-container mb-2">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div id="xpGainText" class="text-end"></div>
+                <div id="levelUpMessage"></div>
+
+                <div id="missionsContainer" class="mt-4">
+                    <!-- initial missions will be populated by JS using templates -->
+                </div>
+
+                <button class="btn btn-primary btn-lg w-100 mt-4" id="backBtn">🗺️ Terug naar Kaart</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-top border-3 mt-auto" style="border-top-color: #FF1493 !important;">
+        <div class="container-fluid text-center py-4">
+            <small class="text-dark fw-bold">&copy; 2026 Chest Chasers Hackathon</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"
+    ></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"
+    ></script>
+
+    <script>
+        const missionsContainer = document.getElementById("missionsContainer");
+        const progressBar = document.getElementById("progressBar");
+        const xpText = document.getElementById("xpText");
+        const xpGainText = document.getElementById("xpGainText");
+        const levelText = document.getElementById("levelText");
+        const levelUpMessage = document.getElementById("levelUpMessage");
+        const backBtn = document.getElementById("backBtn");
+
+        // persistent XP, coin and level helpers
+        function getXP() {
+            return parseInt(localStorage.getItem('xp') || '0', 10);
+        }
+        function setXP(val) {
+            localStorage.setItem('xp', val);
+        }
+        function getLevel() {
+            return parseInt(localStorage.getItem('level') || '1', 10);
+        }
+        function setLevel(l) {
+            localStorage.setItem('level', l);
+        }
+        function addXP(amount) {
+            let xp = getXP() + amount;
+            let lvl = getLevel();
+            if (xp >= 100) {
+                xp -= 100;
+                lvl += 1;
+                setLevel(lvl);
+                addCoins(20); // give coins for leveling up
+                levelUpMessage.textContent = `🎉 Gefeliciteerd! Je bent nu level ${lvl}!`;
+                setTimeout(() => { levelUpMessage.textContent = ""; }, 2500);
+            }
+            setXP(xp);
+            updateXPBar();
+            levelText.textContent = "Level: " + getLevel();
+        }
+
+        function getCoins() {
+            return parseInt(localStorage.getItem('coins') || '0', 10);
+        }
+        function addCoins(amount) {
+            const coins = getCoins() + amount;
+            localStorage.setItem('coins', coins);
+        }
+
+        function updateXPBar() {
+            const xp = getXP();
+            const percentage = Math.min((xp / 100) * 100, 100);
+            progressBar.style.width = percentage + "%";
+            xpText.textContent = xp + "/100 XP";
+        }
+
+        // initialize display
+        updateXPBar();
+        levelText.textContent = "Level: " + getLevel();
+
+        // mission templates and helpers
+        const missionTemplates = [
+            { name: 'Man en het hert', obj: 'Vind de hoofdingang.' },
+            { name: 'Zoek een standbeeld', obj: 'Zoek de historische bomen.' },
+            { name: 'Raadsel', obj: 'Los het lokale raadsel op.' },
+            { name: 'Kies het juiste feit', obj: 'Vind het juiste historische feit.' },
+            { name: 'De kus van Apeldoorn', obj: 'Spot het bekende kunstwerk.' }
+        ];
+
+        function addTemplateMission(template) {
+            const div = document.createElement("div");
+            div.className = "mission";
+            div.innerHTML = `
+                <div>
+                    <strong>${template.name}</strong><br />
+                    <small class="text-muted">${template.obj}</small>
+                </div>
+                <input type="checkbox" class="missionCheck">`;
+            missionsContainer.appendChild(div);
+        }
+
+        function addNewMission() {
+            const choice = missionTemplates[Math.floor(Math.random() * missionTemplates.length)];
+            addTemplateMission(choice);
+        }
+
+        // populate initial missions from templates
+        missionTemplates.forEach(t => addTemplateMission(t));
+
+        // delegation: handle existing and future checkboxes
+        missionsContainer.addEventListener("change", function(e) {
+            if (e.target.matches(".missionCheck")) {
+                if (e.target.checked) {
+                    const xpPerMission = 25; // fixed amount
+                    addXP(xpPerMission);
+                    addCoins(10); // reward coins as well
+                    xpGainText.textContent = "+" + xpPerMission + " XP";
+                    setTimeout(() => { xpGainText.textContent = ""; }, 1500);
+
+                    const missionDiv = e.target.closest(".mission");
+                    addNewMission();
+                    if (missionDiv) {
+                        missionDiv.remove();
+                    }
+                }
+                updateXPBar();
+            }
+        });
+        // Back button navigation
+        backBtn.addEventListener("click", () => {
+            window.location.href = "map.html";
+        });
+    </script>
 </body>
 </html>

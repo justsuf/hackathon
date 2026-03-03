@@ -1,25 +1,60 @@
 // map and routing control logic
 
 document.addEventListener('DOMContentLoaded', () => {
-    // XP tracking
-    let totalXP = 0;
+    // persistent XP/coin/level helpers
+    function getXP() {
+        return parseInt(localStorage.getItem('xp') || '0', 10);
+    }
+    function setXP(val) {
+        localStorage.setItem('xp', val);
+    }
+    function getLevel() {
+        return parseInt(localStorage.getItem('level') || '1', 10);
+    }
+    function setLevel(l) {
+        localStorage.setItem('level', l);
+    }
+
+    function addXP(amount) {
+        let xp = getXP() + amount;
+        let lvl = getLevel();
+        if (xp >= 100) {
+            xp -= 100;
+            lvl += 1;
+            setLevel(lvl);
+            addCoins(20); // bonus for leveling up
+            // optional: dispatch event so other pages can show message
+            document.dispatchEvent(new CustomEvent('levelup', { detail: lvl }));
+        }
+        setXP(xp);
+        updateXPBar();
+    }
+
+    function getCoins() {
+        return parseInt(localStorage.getItem('coins') || '0', 10);
+    }
+    function addCoins(amount) {
+        const c = getCoins() + amount;
+        localStorage.setItem('coins', c);
+    }
+
     const xpPerMission = 25;  // XP gained per completed mission
-    const maxXP = 100;
+    const maxXP = 100; // bar resets per level
 
     function updateXPBar() {
+        const totalXP = getXP();
         const xpProgress = document.getElementById('xp-progress');
         const xpDisplay = document.getElementById('xp-display');
+        const levelDisp = document.getElementById('level-display');
         if (xpProgress && xpDisplay) {
             const percentage = Math.min((totalXP / maxXP) * 100, 100);
             xpProgress.style.width = percentage + '%';
             xpProgress.setAttribute('aria-valuenow', totalXP);
             xpDisplay.textContent = totalXP + ' / ' + maxXP;
         }
-    }
-
-    function addXP(amount) {
-        totalXP = Math.min(totalXP + amount, maxXP);
-        updateXPBar();
+        if (levelDisp) {
+            levelDisp.textContent = 'Level ' + getLevel();
+        }
     }
     // create the map centered on Apeldoorn, Netherlands
     // coordinates: 52.2112 N, 5.9699 E
@@ -114,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     marker.setOpacity(0.5);
                     marker.closePopup();
                     marker.bindPopup(`<div class="p-3 text-center"><strong style="font-size: 1.1rem;">${p.name}</strong><p class="text-success mt-2" style="font-weight: 600;">✅ Missie voltooid!</p></div>`);
-                    addXP(xpPerMission);  // award XP for completing mission
+                    addXP(xpPerMission);  // award XP for completing mission                    addCoins(10);          // also give coins
                 });
             });
         });
@@ -139,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
             poiLayer.clearLayers();
         });
     }
+
+    // update XP bar (and possibly level) on load
+    updateXPBar(); // level not shown on map, but loaded
 
     // load first route on startup
     loadRoute(1);
